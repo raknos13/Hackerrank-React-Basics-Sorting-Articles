@@ -26,7 +26,7 @@ function Articles({ articles }) {
 					{articles.map((article) => {
 						return (
 							<Article
-                                key={article.date}
+								key={article.date}
 								title={article.title}
 								upvotes={article.upvotes}
 								date={article.date}
