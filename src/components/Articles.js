@@ -1,5 +1,6 @@
 import React from "react";
 
+// Extracted tr for Article entry to a new component
 function Article({ title, upvotes, date }) {
 	return (
 		<tr data-testid='article' key='article-index'>
