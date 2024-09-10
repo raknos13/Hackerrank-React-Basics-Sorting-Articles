@@ -7,17 +7,21 @@ import Articles from "./components/Articles";
 const title = "Sorting Articles";
 
 function App({ articles }) {
-    const [sortedby, setSortedBy] = React.useState(0);
-    let refinedArticles = function(){
-        if(sortedby === 0){
-            let r =   articles.sort((a,b) => (b.upvotes > a.upvotes) ? 1 : ((a.upvotes > b.upvotes) ? -1 : 0));
-            return r;
-        }else{
-            let r =   articles.sort((a,b) => (new Date(b.date) > new Date(a.date)) ? 1 : ((new Date(a.date) > new Date(b.date)) ? -1 : 0));
-            return r;
-        }
-    }
-    articles  = refinedArticles();
+	const [sortBy, setSortBy] = useState("");
+	const [data, setData] = useState(articles);
+
+	function handleSortByUpvotes() {
+		const sortedArticles = articles.toSorted((a, b) => a.upvotes < b.upvotes);
+		setSortBy("upvotes");
+		setData(sortedArticles);
+	}
+	function handleSortByDate() {
+		const sortedArticles = articles.toSorted(
+			(a, b) => new Date(a.date) < new Date(b.date)
+		);
+		setSortBy("date");
+		setData(sortedArticles);
+	}
 
 	return (
 		<div className='App'>
@@ -29,19 +33,19 @@ function App({ articles }) {
 				<button
 					data-testid='most-upvoted-link'
 					className='small'
-                    onClick={()=>setSortedBy(0)}
+					onClick={handleSortByUpvotes}
 				>
 					Most Upvoted
 				</button>
 				<button
 					data-testid='most-recent-link'
 					className='small'
-                    onClick={()=>setSortedBy(1)}
+					onClick={handleSortByDate}
 				>
 					Most Recent
 				</button>
 			</div>
-			<Articles articles={articles} />
+			<Articles articles={data} />
 		</div>
 	);
 }
